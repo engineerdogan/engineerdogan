@@ -103,44 +103,12 @@ button:hover:not(:disabled) {
 #copyButton {
     background-color: #28a745;
     border-radius: 50%;
-    padding: 8px;
+    padding: 5px; /* Küçültülmüş padding */
 }
 
 #copyButton i {
-    font-size: 20px;
+    font-size: 16px; /* Küçültülmüş ikon boyutu */
     margin: 0;
-}
-
-/* Tema seçici simgesi */
-.theme-toggle {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-}
-
-#themeIcon {
-    font-size: 24px;
-}
-
-/* Karanlık tema */
-body.dark-mode {
-    background: #121212;
-    color: #e0e0e0;
-}
-
-.container.dark-mode {
-    background-color: #1e1e1e;
-    color: #e0e0e0;
-}
-
-button.dark-mode {
-    background-color: #2196F3;
-    color: white;
-}
-
-button.dark-mode:disabled {
-    background-color: #616161;
 }
 
 /* Mobil görünüm ayarları */
