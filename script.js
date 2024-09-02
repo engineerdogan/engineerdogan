@@ -1,15 +1,26 @@
 function formatMacAddress(value) {
+    // Tüm geçersiz karakterleri temizle
     value = value.replace(/[^0-9A-Fa-f]/g, '');
+
+    // MAC adresinin formatını düzenle
     return value.length > 2 ? value.match(/.{1,2}/g).join('-').toUpperCase() : value.toUpperCase();
 }
 
 function isValidMacAddress(macAddress) {
+    // MAC adresinin geçerliliğini kontrol et
     const macRegex = /^([0-9A-Fa-f]{2}[-:]){5}[0-9A-Fa-f]{2}$/;
     return macRegex.test(macAddress);
 }
 
 document.getElementById("macInput").addEventListener("input", function (e) {
-    e.target.value = formatMacAddress(e.target.value);
+    let value = e.target.value;
+    
+    // MAC adresinin 12 karakterden uzun olmamasını sağla
+    if (value.replace(/[^0-9A-Fa-f]/g, '').length > 12) {
+        value = value.slice(0, 17); // 12 karakter + 5 ayırıcı
+    }
+
+    e.target.value = formatMacAddress(value);
     document.getElementById("generateButton").disabled = e.target.value.length === 0;
 });
 
@@ -41,14 +52,4 @@ document.getElementById("copyButton").addEventListener("click", function () {
     }, function (err) {
         console.error('Kopyalama hatası:', err);
     });
-});
-
-document.getElementById("themeToggle").addEventListener("click", function () {
-    const body = document.body;
-    const container = document.querySelector('.container');
-    const buttons = document.querySelectorAll('button');
-
-    body.classList.toggle('dark-mode');
-    container.classList.toggle('dark-mode');
-    buttons.forEach(button => button.classList.toggle('dark-mode'));
 });
