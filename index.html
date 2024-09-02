@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
@@ -14,7 +16,15 @@
         <label for="macInput">MAC Adresini Girin:</label>
         <input type="text" id="macInput" placeholder="00-14-22-01-23-45">
         <button id="generateButton" disabled>Şifre Üret</button>
-        <p id="result" aria-live="polite"></p>
+        <div class="theme-toggle" id="themeToggle">
+            <i class="fas fa-sun" id="themeIcon"></i>
+        </div>
+        <div id="result">
+            <span id="passwordText"></span>
+            <button id="copyButton" disabled>
+                <i class="fas fa-copy"></i>
+            </button>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
