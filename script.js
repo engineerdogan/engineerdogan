@@ -16,16 +16,39 @@ document.getElementById("macInput").addEventListener("input", function (e) {
 document.getElementById("generateButton").addEventListener("click", function () {
     let macAddress = document.getElementById("macInput").value.trim().toUpperCase();
     let resultElement = document.getElementById("result");
+    let passwordText = document.getElementById("passwordText");
+    let copyButton = document.getElementById("copyButton");
 
     if (isValidMacAddress(macAddress)) {
         const hash = CryptoJS.SHA256(macAddress).toString(CryptoJS.enc.Base64);
         let password = hash.substring(0, 12);
-        resultElement.textContent = password;
+        passwordText.textContent = password;
         resultElement.style.color = "#333";
         document.getElementById("macInput").style.borderColor = "#ddd";
+        copyButton.disabled = false;
     } else {
-        resultElement.textContent = "Lütfen geçerli bir MAC adresi girin.";
+        passwordText.textContent = "Lütfen geçerli bir MAC adresi girin.";
         resultElement.style.color = "red";
         document.getElementById("macInput").style.borderColor = "red";
+        copyButton.disabled = true;
     }
+});
+
+document.getElementById("copyButton").addEventListener("click", function () {
+    let password = document.getElementById("passwordText").textContent;
+    navigator.clipboard.writeText(password).then(function () {
+        alert('Şifre panoya kopyalandı!');
+    }, function (err) {
+        console.error('Kopyalama hatası:', err);
+    });
+});
+
+document.getElementById("themeToggle").addEventListener("click", function () {
+    const body = document.body;
+    const container = document.querySelector('.container');
+    const buttons = document.querySelectorAll('button');
+
+    body.classList.toggle('dark-mode');
+    container.classList.toggle('dark-mode');
+    buttons.forEach(button => button.classList.toggle('dark-mode'));
 });
