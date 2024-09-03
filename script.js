@@ -1,55 +1,64 @@
-function formatMacAddress(value) {
-    // Tüm geçersiz karakterleri temizle
-    value = value.replace(/[^0-9A-Fa-f]/g, '');
+document.addEventListener("DOMContentLoaded", function () {
+    const content = document.querySelector(".container");
+    const navLinks = document.querySelectorAll(".navbar a");
 
-    // MAC adresinin formatını düzenle
-    return value.length > 2 ? value.match(/.{1,2}/g).join('-').toUpperCase() : value.toUpperCase();
-}
+    function loadContent(page) {
+        switch (page) {
+            case "generate":
+                content.innerHTML = `
+                    <div class="warning">
+                        Şifreler MAC adresi kullanılarak oluşturulmaktadır.
+                    </div>
+                    <div class="form-container">
+                        <div class="content-header">
+                            <i class="fas fa-key icon-header"></i>
+                            <h1>Şifre Üret</h1>
+                        </div>
+                        <label for="macInput">MAC Adresini Girin:</label>
+                        <input type="text" id="macInput" placeholder="00-14-22-01-23-45">
+                        <button id="generateButton" disabled>Şifre Üret</button>
+                        <div id="result">
+                            <span id="passwordText"></span>
+                        </div>
+                    </div>
+                `;
+                break;
 
-function isValidMacAddress(macAddress) {
-    // MAC adresinin geçerliliğini kontrol et
-    const macRegex = /^([0-9A-Fa-f]{2}[-:]){5}[0-9A-Fa-f]{2}$/;
-    return macRegex.test(macAddress);
-}
+            case "page1":
+            case "page2":
+            case "page3":
+                content.innerHTML = `
+                    <div class="content-header">
+                        <i class="fas fa-file-alt"></i>
+                        <h1>${page === 'page1' ? 'Sayfa 1' : page === 'page2' ? 'Sayfa 2' : 'Sayfa 3'}</h1>
+                    </div>
+                    <p>Düzenlenecek</p>
+                `;
+                break;
 
-document.getElementById("macInput").addEventListener("input", function (e) {
-    let value = e.target.value;
-    
-    // MAC adresinin 12 karakterden uzun olmamasını sağla
-    if (value.replace(/[^0-9A-Fa-f]/g, '').length > 12) {
-        value = value.slice(0, 17); // 12 karakter + 5 ayırıcı
+            default:
+                content.innerHTML = `<h1>Sayfa Bulunamadı</h1>`;
+        }
+
+        // Aktif sekmeyi güncelle
+        navLinks.forEach(link => link.classList.remove("active"));
+        document.querySelector(`#nav${page.charAt(0).toUpperCase() + page.slice(1)}`).classList.add("active");
     }
 
-    e.target.value = formatMacAddress(value);
-    document.getElementById("generateButton").disabled = e.target.value.length === 0;
-});
+    // Sayfa yüklenirken ilk içeriği yükle
+    loadContent("generate");
 
-document.getElementById("generateButton").addEventListener("click", function () {
-    let macAddress = document.getElementById("macInput").value.trim().toUpperCase();
-    let resultElement = document.getElementById("result");
-    let passwordText = document.getElementById("passwordText");
-    let copyButton = document.getElementById("copyButton");
-
-    if (isValidMacAddress(macAddress)) {
-        const hash = CryptoJS.SHA256(macAddress).toString(CryptoJS.enc.Base64);
-        let password = hash.substring(0, 12);
-        passwordText.textContent = password;
-        resultElement.style.color = "#333";
-        document.getElementById("macInput").style.borderColor = "#ddd";
-        copyButton.disabled = false;
-    } else {
-        passwordText.textContent = "Lütfen geçerli bir MAC adresi girin.";
-        resultElement.style.color = "red";
-        document.getElementById("macInput").style.borderColor = "red";
-        copyButton.disabled = true;
-    }
-});
-
-document.getElementById("copyButton").addEventListener("click", function () {
-    let password = document.getElementById("passwordText").textContent;
-    navigator.clipboard.writeText(password).then(function () {
-        alert('Şifre panoya kopyalandı!');
-    }, function (err) {
-        console.error('Kopyalama hatası:', err);
+    // Navbar tıklama olayları
+    document.getElementById("navGenerate").addEventListener("click", function () {
+        loadContent("generate");
+    });
+    document.getElementById("navPage1").addEventListener("click", function () {
+        loadContent("page1");
+    });
+    document.getElementById("navPage2").addEventListener("click", function () {
+        loadContent("page2");
+    });
+    document.getElementById("navPage3").addEventListener("click", function () {
+        loadContent("page3");
     });
 });
