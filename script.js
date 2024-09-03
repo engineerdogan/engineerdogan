@@ -1,74 +1,31 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const content = document.getElementById("mainContent");
-    const navLinks = document.querySelectorAll(".navbar a");
+function formatMacAddress(value) {
+    value = value.replace(/[^0-9A-Fa-f]/g, '');
+    return value.length > 2 ? value.match(/.{1,2}/g).join('-').toUpperCase() : value.toUpperCase();
+}
 
-    function loadContent(page) {
-        switch (page) {
-            case "generate":
-                content.innerHTML = `
-                    <div class="content-header">
-                        <i class="fas fa-key icon-header"></i>
-                        <h1>Şifre Üret</h1>
-                    </div>
-                    <div class="info-box">
-                        <p>Şifreler MAC adresi kullanılarak oluşturulmaktadır.</p>
-                    </div>
-                    <div class="form-box">
-                        <label for="macInput">MAC Adresini Girin:</label>
-                        <input type="text" id="macInput" placeholder="00-14-22-01-23-45">
-                        <button id="generateButton" disabled>Şifre Üret</button>
-                        <div id="result">
-                            <span id="passwordText"></span>
-                        </div>
-                    </div>
-                `;
-                break;
+function isValidMacAddress(macAddress) {
+    const macRegex = /^([0-9A-Fa-f]{2}[-:]){5}[0-9A-Fa-f]{2}$/;
+    return macRegex.test(macAddress);
+}
 
-            case "page1":
-                content.innerHTML = `
-                    <div class="content-header">
-                        <i class="fas fa-file-alt"></i>
-                        <h1>Sayfa 1</h1>
-                    </div>
-                    <p>Düzenlenecek.</p>
-                `;
-                break;
+document.getElementById("macInput").addEventListener("input", function (e) {
+    e.target.value = formatMacAddress(e.target.value);
+    document.getElementById("generateButton").disabled = e.target.value.length === 0;
+});
 
-            case "page2":
-                content.innerHTML = `
-                    <div class="content-header">
-                        <i class="fas fa-file-alt"></i>
-                        <h1>Sayfa 2</h1>
-                    </div>
-                    <p>Düzenlenecek.</p>
-                `;
-                break;
+document.getElementById("generateButton").addEventListener("click", function () {
+    let macAddress = document.getElementById("macInput").value.trim().toUpperCase();
+    let resultElement = document.getElementById("result");
 
-            case "page3":
-                content.innerHTML = `
-                    <div class="content-header">
-                        <i class="fas fa-file-alt"></i>
-                        <h1>Sayfa 3</h1>
-                    </div>
-                    <p>Düzenlenecek.</p>
-                `;
-                break;
-
-            default:
-                content.innerHTML = `<h1>Sayfa Bulunamadı</h1>`;
-        }
-
-        // Aktif sekmeyi güncelle
-        navLinks.forEach(link => link.classList.remove("active"));
-        document.querySelector(`#nav${page.charAt(0).toUpperCase() + page.slice(1)}`).classList.add("active");
+    if (isValidMacAddress(macAddress)) {
+        const hash = CryptoJS.SHA256(macAddress).toString(CryptoJS.enc.Base64);
+        let password = hash.substring(0, 12);
+        resultElement.textContent = password;
+        resultElement.style.color = "#333";
+        document.getElementById("macInput").style.borderColor = "#ddd";
+    } else {
+        resultElement.textContent = "Lütfen geçerli bir MAC adresi girin.";
+        resultElement.style.color = "red";
+        document.getElementById("macInput").style.borderColor = "red";
     }
-
-    loadContent("generate");
-
-    navLinks.forEach(link => {
-        link.addEventListener("click", function (event) {
-            event.preventDefault();
-            loadContent(this.id.replace("nav", "").toLowerCase());
-        });
-    });
 });
