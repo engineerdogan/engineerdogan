@@ -1,65 +1,80 @@
 body {
     font-family: 'Roboto', sans-serif;
-    background: linear-gradient(to right, #e6e9f0, #eef1f5);
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    background-color: #000;
+    color: #fff;
     margin: 0;
-    padding: 10px;
+    padding: 0;
     box-sizing: border-box;
-    transition: background 0.3s ease, color 0.3s ease;
 }
 
 .container {
-    background-color: #ffffff;
-    color: #333;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 100%;
-    max-width: 500px;
-    box-sizing: border-box;
+    padding: 20px;
+    max-width: 800px;
     margin: auto;
     position: relative;
+    margin-bottom: 60px; /* Menü yüksekliğini göz önünde bulundurarak alt boşluk */
+    text-align: center; /* İçeriği ortala */
 }
 
-.logo {
-    width: 100px;
+.warning {
     margin-bottom: 20px;
+    padding: 15px;
+    background-color: #444;
+    border: 1px solid #555;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #f39c12; /* Uyarı rengi */
+}
+
+.form-container {
+    padding: 20px;
+    background-color: #333;
+    border-radius: 8px;
+    border: 1px solid #555;
+}
+
+.content-header {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* İçeriği ortala */
+    margin-bottom: 20px;
+}
+
+.icon-header {
+    font-size: 40px; /* İkon boyutu */
+    margin-right: 15px;
+    color: #007bff; /* İkon rengi */
 }
 
 h1 {
-    color: #333;
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 28px;
+    margin: 0;
+    color: #fff;
 }
 
 label {
     display: block;
     margin-bottom: 10px;
     font-size: 16px;
-    color: #555;
+    color: #ddd;
 }
 
 input[type="text"] {
     width: 100%;
     padding: 12px 10px;
     margin-bottom: 20px;
-    border: 1px solid #ddd;
+    border: none; /* Çerçeveyi kaldır */
     border-radius: 8px;
     font-size: 16px;
     box-sizing: border-box;
-    background-color: #f7f7f7;
-    color: #333;
+    background-color: #222;
+    color: #fff;
     text-align: center;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
 }
 
 input[type="text"]::placeholder {
-    color: #aaa;
+    color: #888;
 }
 
 button {
@@ -75,6 +90,7 @@ button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    margin: 0 auto; /* Ortala */
 }
 
 button:disabled {
@@ -90,7 +106,7 @@ button:hover:not(:disabled) {
 #result {
     margin-top: 20px;
     font-size: 18px;
-    color: #333;
+    color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -100,37 +116,44 @@ button:hover:not(:disabled) {
     margin-right: 10px;
 }
 
-#copyButton {
-    background-color: #28a745;
-    border-radius: 50%;
-    padding: 5px; /* Küçültülmüş padding */
+.navbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #444;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+    border-top: 2px solid #000; /* Üst kenarda ince siyah kenarlık */
+    border-bottom: 2px solid #000; /* Alt kenarda ince siyah kenarlık */
 }
 
-#copyButton i {
-    font-size: 16px; /* Küçültülmüş ikon boyutu */
-    margin: 0;
+.navbar a {
+    color: #aaa; /* Tıklanmadan önce gri */
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px; /* Köşeleri oval */
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 14px; /* Yazı boyutu */
+    font-weight: 500; /* Yazı kalınlığı */
+    text-transform: uppercase; /* Yazıları büyük harflerle yapma */
 }
 
-/* Mobil görünüm ayarları */
-@media (max-width: 600px) {
-    .container {
-        padding: 20px;
-    }
+.navbar a i {
+    font-size: 24px; /* İkon boyutu */
+    margin-bottom: 5px;
+}
 
-    h1 {
-        font-size: 20px;
-    }
+.navbar a.active {
+    background-color: #000; /* Aktif sekme rengi */
+    color: #fff;
+}
 
-    input[type="text"] {
-        font-size: 14px;
-    }
-
-    button {
-        font-size: 14px;
-        padding: 10px 15px;
-    }
-
-    #result {
-        font-size: 16px;
-    }
+.navbar a.active i {
+    color: #fff;
 }
