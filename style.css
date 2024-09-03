@@ -124,10 +124,11 @@ button:hover:not(:disabled) {
     background-color: #444;
     display: flex;
     justify-content: space-around;
-    padding: 10px;
+    padding: 8px 0; /* Menünün yüksekliğini azalt */
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
     border-top: 2px solid #000; /* Üst kenarda ince siyah kenarlık */
     border-bottom: 2px solid #000; /* Alt kenarda ince siyah kenarlık */
+    border-radius: 12px; /* Menünün köşelerini ovalleştir */
 }
 
 .navbar a {
@@ -156,4 +157,36 @@ button:hover:not(:disabled) {
 
 .navbar a.active i {
     color: #fff;
+}
+
+/* Sayfa 2 içeriği için tablo stilleri */
+.table-container {
+    padding: 20px;
+    background-color: #333;
+    border-radius: 8px;
+    border: 1px solid #555;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    border: 1px solid #555;
+    padding: 10px;
+    text-align: left;
+}
+
+table th {
+    background-color: #444;
+}
+
+table tr:nth-child(even) {
+    background-color: #222;
+}
+
+table tr:hover {
+    background-color: #555;
 }
